@@ -40,4 +40,6 @@ function digest(text) {
   return readHashFromMemory(digestPtr);
 }
 
+digest.loaded = loaded;
+
 module.exports = digest;
