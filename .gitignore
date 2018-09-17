@@ -4,3 +4,4 @@ node_modules
 **/*.rs.bk
 Cargo.lock
 yarn.lock
+package-lock.json
