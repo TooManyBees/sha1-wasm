@@ -11,6 +11,8 @@ if (filePaths.length) {
   process.exit(1);
 }
 
+fs.copyFileSync("./build/index.js", "./dist/index.js");
+
 for (let filePath of filePaths) {
   try {
     const buf = fs.readFileSync(filePath);
