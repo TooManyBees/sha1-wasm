@@ -1,0 +1,15 @@
+[package]
+name = "sha1"
+version = "0.1.0"
+authors = ["Jesse Kipp <jesse.kipp@huffingtonpost.com>"]
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+sha1 = { version = "0.6", default-features = false }
+wee_alloc = "*"
+
+[profile.release]
+lto = true
