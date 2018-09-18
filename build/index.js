@@ -1,15 +1,9 @@
-let sha1;
-let BUFFER_SIZE;
-let loaded;
-{
-  const wasmBytes = require('./sha1.wasm.js');
-  loaded = WebAssembly.instantiate(wasmBytes)
-  .then(wasm => {
-    const { digest, alloc, free, memory, buffer_size } = wasm.instance.exports;
-    BUFFER_SIZE = buffer_size();
-    sha1 = { digest, alloc, free, memory };
-  });
-}
+const wasmModule = require('./sha1.wasm.js');
+const sha1 = (function() {
+  const instance = new WebAssembly.Instance(wasmModule, {});
+  const { digest, alloc, free, memory, buffer_size } = instance.exports;
+  return { digest, alloc, free, memory, BUFFER_SIZE: buffer_size() };
+})();
 
 function memorySlice(ptr, len) {
   return new Uint8Array(sha1.memory.buffer, ptr, len);
@@ -24,7 +18,7 @@ function writeStringToMemory(text) {
 }
 
 function readHashFromMemory(digestPtr) {
-  const digestBytes = memorySlice(digestPtr, BUFFER_SIZE);
+  const digestBytes = memorySlice(digestPtr, sha1.BUFFER_SIZE);
   const hash = Buffer.from(digestBytes).toString('hex');
   free(digestBytes);
   return hash;
@@ -39,7 +33,5 @@ function digest(text) {
   const digestPtr = sha1.digest(textSlice.byteOffset, textSlice.byteLength) // frees the memory in textSlide
   return readHashFromMemory(digestPtr);
 }
-
-digest.loaded = loaded;
 
 module.exports = digest;

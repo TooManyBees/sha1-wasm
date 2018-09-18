@@ -18,7 +18,12 @@ for (let filePath of filePaths) {
     const buf = fs.readFileSync(filePath);
     const outFilePath = filePath + ".js";
     const f = fs.createWriteStream(outFilePath);
-    f.end(`const buffer = new ArrayBuffer(${buf.length});\nconst array = new Uint8Array(buffer);\narray.set([${buf.join()}]);\nmodule.exports = array;\n`);
+    f.end(`
+const buffer = new ArrayBuffer(${buf.length});
+const array = new Uint8Array(buffer);
+array.set([${buf.join()}]);
+module.exports = new WebAssembly.Module(array);
+`);
   } catch(e) {
     console.error(`Error writing ${filePath}`, e);
   }
