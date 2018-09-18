@@ -11,7 +11,8 @@ if (filePaths.length) {
   process.exit(1);
 }
 
-fs.copyFileSync("./build/index.js", "./dist/index.js");
+["index.js", "glue.js", "web.js"].forEach(name =>
+  fs.copyFileSync(path.join('./build', name), path.join('./dist', name)));
 
 for (let filePath of filePaths) {
   try {
@@ -22,7 +23,7 @@ for (let filePath of filePaths) {
 const buffer = new ArrayBuffer(${buf.length});
 const array = new Uint8Array(buffer);
 array.set([${buf.join()}]);
-module.exports = new WebAssembly.Module(array);
+module.exports = array;
 `);
   } catch(e) {
     console.error(`Error writing ${filePath}`, e);
