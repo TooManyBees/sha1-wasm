@@ -43,6 +43,7 @@ and the gap increases with the length of the source bytes. To run the benchmark,
 ```
 $ node benchmark.js
 Test string is 107 chars long
-js x 137,263 ops/sec ±1.20% (89 runs sampled)
-rust/wasm x 496,747 ops/sec ±0.91% (89 runs sampled)
+pure js x 136,241 ops/sec ±0.82% (89 runs sampled)
+node crypto x 407,798 ops/sec ±6.95% (71 runs sampled)
+rust/wasm x 497,166 ops/sec ±0.70% (90 runs sampled)
 ```
