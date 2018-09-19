@@ -5,9 +5,25 @@ and bundled into a Node module.
 
 ## Usage
 
+### In Node.js
+
 ```javascript
 const digest = require('./sha1');
 digest("Hi there!"); // '95e2b07e12754e52c37cfd485544d4f444597bff'
+```
+
+### In web
+
+Instead of importing the root level of the package, import `'sha1/web'` which
+loads the module from an array literal. This uses triple the byte size, but then
+it's not intended to be the primary use case.
+
+```javascript
+const sha1 = require('./sha1/web');
+sha1.then(digest => {
+  /* do your thing; I don't know how to load modules asynchronously,
+     and I'm glad I don't need to
+   */);
 ```
 
 ## Building
